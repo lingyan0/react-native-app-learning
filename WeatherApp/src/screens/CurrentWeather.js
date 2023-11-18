@@ -8,6 +8,7 @@ import {
   Platform,
   StatusBar,
 } from "react-native";
+import { weatherType } from "../utilities/WeatherType";
 
 const CurrentWeather = () => {
   return (
@@ -24,7 +25,9 @@ const CurrentWeather = () => {
       </View>
       <View style={styles.bodyWrapper}>
         <Text style={styles.description}>Its sunny</Text>
-        <Text style={styles.message}>Its perfect t-shirt weather...?</Text>
+        <Text style={styles.message}>
+          {weatherType["Thunderstorm"].message}
+        </Text>
       </View>
     </SafeAreaView>
   );

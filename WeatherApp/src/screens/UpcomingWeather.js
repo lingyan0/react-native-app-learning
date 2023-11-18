@@ -7,8 +7,15 @@ import {
   FlatList,
   View,
   Text,
+  ImageBackground,
 } from "react-native";
-import { Feather } from "@expo/vector-icons";
+import ListItem from "../components/ListItem";
+
+/* Text.defaultProps = {
+  style: {
+    color: "white",
+  },
+};*/
 
 const DATA = [
   {
@@ -28,21 +35,17 @@ const DATA = [
   },
 ];
 
-const Item = (props) => {
-  const { dt_txt, min, max, condition } = props;
+const Empty = () => {
   return (
     <View>
-      <Feather name="sun" size={24} color="black" />
-      <Text>{dt_txt}</Text>
-      <Text>{min}</Text>
-      <Text>{max}</Text>
+      <Text>Empty</Text>
     </View>
   );
 };
 
 const UpcomingWeather = () => {
   const renderItem = ({ item }) => (
-    <Item
+    <ListItem
       condition={item.weather[0].main}
       dt_txt={item.dt_txt}
       min={item.main.temp_min}
@@ -50,10 +53,26 @@ const UpcomingWeather = () => {
     />
   );
 
+  const { container, image } = styles;
+
   return (
-    <SafeAreaView style={styles.container}>
-      <Text>Upcoming Weather</Text>
-      <FlatList data={DATA} renderItem={renderItem}></FlatList>
+    <SafeAreaView style={container}>
+      <ImageBackground
+        source={require("../../assets/upcoming-background.jpg")}
+        style={image}
+      >
+        <Text>Upcoming Weather</Text>
+
+        <FlatList
+          data={DATA}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.dt_text}
+          ItemSeparatorComponent={() => (
+            <View style={{ backgroundColor: "#22162b", height: 2 }} />
+          )}
+          ListEmptyComponent={<Empty />}
+        ></FlatList>
+      </ImageBackground>
     </SafeAreaView>
   );
 };
@@ -62,6 +81,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    backgroundColor: "#451f55",
+    color: "white",
+  },
+
+  image: {
+    flex: 1,
   },
 });
 export default UpcomingWeather;
